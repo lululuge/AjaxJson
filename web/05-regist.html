@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script>
+        $(function () {
+            // 给username输入框绑定blur事件
+            $("#username").blur(function () {
+               // 获取username输入框的值
+                var username_input = $(this).val();
+                // 发送ajax请求
+                $.get("findUserServlet", {"username":username_input}, function (data) {
+                    var span = $("#span_username");
+                    if (data.userExist) {
+                        // 用户名存在
+                        span.css("color", "red");
+                        span.html(data.msg);
+                    }
+                    else {
+                        // 用户名不存在
+                        span.css("color", "green");
+                        span.html(data.msg);
+                    }
+                }, "json");
+
+            });
+        })
+    </script>
+</head>
+<body>
+    <form action="" method="get">
+        <input type="text" id="username" name="username" placeholder="创建用户名"><span id="span_username"></span><br>
+        <input type="password" name="password" placeholder="创建密码"><br>
+        <input type="submit" value="注册">
+    </form>
+</body>
+</html>
